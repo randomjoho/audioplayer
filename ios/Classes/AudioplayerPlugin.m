@@ -61,6 +61,13 @@ FlutterMethodChannel *_channel;
                                       [self mute:[call.arguments boolValue]];
                                       result(nil);
                                   },
+                              
+                              @"setReceiver":
+                                                               ^{
+                                                                   [self playmode:[call.arguments boolValue]];
+                                                                   result(nil);
+                                                               },
+                              
                               @"seek":
                                   ^{
                                       [self seek:CMTimeMakeWithSeconds([call.arguments doubleValue], 1)];
@@ -134,6 +141,20 @@ FlutterMethodChannel *_channel;
         [_channel invokeMethod:@"audio.onStart" arguments:@(mseconds)];
     }
 }
+
+
+- (void)playmode:(BOOL)isreceiver {
+    if (isreceiver) {
+        //听筒播放
+        [[AVAudioSession sharedInstance]setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    }else{
+        //扬声器播放
+        [[AVAudioSession sharedInstance]setCategory:AVAudioSessionCategoryPlayback error:nil];
+    }
+}
+
+
+ 
 
 - (void)onTimeInterval:(CMTime)time {
     int mseconds =  CMTimeGetSeconds(time)*1000;
