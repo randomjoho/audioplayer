@@ -83,8 +83,11 @@ public class AudioplayerPlugin implements MethodCallHandler {
      * 切换到外放
      */
     private void changeToSpeaker() {
-        am.setMode(AudioManager.MODE_NORMAL);
-        am.setSpeakerphoneOn(true);
+        if (!am.isBluetoothA2dpOn()){  //当蓝牙听歌的时候不做控制
+            am.setMode(AudioManager.MODE_NORMAL);
+            am.setSpeakerphoneOn(true);
+        }
+
     }
 
     /**
@@ -96,11 +99,19 @@ public class AudioplayerPlugin implements MethodCallHandler {
 
     /**
      * `
-     * 切换到听筒
+     * 切换到听筒    插着耳机就用
      */
     private void changeToReceiver() {
-        am.setSpeakerphoneOn(false);
-        am.setMode(AudioManager.MODE_IN_COMMUNICATION);
+//        am.setSpeakerphoneOn(false);
+//        am.setMode(AudioManager.MODE_IN_COMMUNICATION);
+
+
+        if (!am.isBluetoothA2dpOn()){  //当蓝牙听歌的时候不做控制
+            am.setSpeakerphoneOn(false);
+            am.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        }
+
+
     }
 
 
